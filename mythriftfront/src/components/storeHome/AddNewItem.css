@@ -1,0 +1,73 @@
+/* AddNewItem.css */
+.add-new-item {
+    padding: 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.add-new-item h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-top: 6rem;
+}
+
+.input-field,
+.image-upload {
+    margin-bottom: 1rem;
+}
+
+.input-field label,
+.image-upload label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.input-field input,
+.image-upload input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    border: none;
+    background-color: #00b79e;
+    color: #fff;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+button:hover {
+    background-color: #01949a;
+}
+
+.item-added-message {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 6rem;
+}
+
+.item-added-message img {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 1rem;
+}
+
+.item-added-message h2 {
+    color: #000000;
+    font-size: 2rem;
+}
+
+.push {
+    height: 200px;
+}

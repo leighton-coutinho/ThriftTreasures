@@ -1,0 +1,36 @@
+/* SaleInfo.css */
+.sale-info {
+    width: 100%;
+    padding: 1rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.sale-row {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr 1fr 1fr; /* Define the columns sizes */
+    align-items: center;
+}
+
+.sale-name {
+    text-align: left;
+    padding-left: 1rem;
+}
+
+.sale-desc {
+    text-align: left;
+}
+
+.sale-category {
+    text-align: left;
+}
+
+.sale-status {
+    text-align: left;
+}
+
+.sale-buyername {
+    text-align: left;
+}
