@@ -15,6 +15,21 @@ public class Store {
     @Column(name="image_Path")
     private String imagePath; // New field for image path
 
+    @Column(name="stripe_account")
+    private String stripeAccount;
+
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+
+    public String getStripeAccount() {
+        return stripeAccount;
+    }
+
+    public void setStripeAccount(String stripeAccount) {
+        this.stripeAccount = stripeAccount;
+    }
+
     @OneToOne(cascade = CascadeType.ALL)
     @MapsId
     @JoinColumn(name = "userID")
@@ -28,6 +43,14 @@ public class Store {
         this.user = storeUser;
         this.address = address;
         this.imagePath = imagePath;
+    }
+    public Store(String name, String email, String username, String password, String address, String imagePath, String stripeAccount)
+    {
+        User storeUser = new User(name, email, username, password);
+        this.user = storeUser;
+        this.address = address;
+        this.imagePath = imagePath;
+        this.stripeAccount = stripeAccount;
     }
 
     public Store(User user, String address, String imagePath) {

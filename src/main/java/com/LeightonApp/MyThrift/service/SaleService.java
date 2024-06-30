@@ -16,4 +16,6 @@ public interface SaleService {
 
     List<Sale> findByStore(Store store);
 
+    public Sale saveSale(Sale sale);
+
 }

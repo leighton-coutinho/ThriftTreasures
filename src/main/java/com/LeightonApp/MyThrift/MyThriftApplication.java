@@ -62,7 +62,7 @@ public class MyThriftApplication {
 			System.out.println("Retrieved Customer User: " + retrievedCustomerUser);
 
 			// Add a random store, FOR ADDING STORE, THE IMAGEPATH SHOULD INCLUDE THE EXTENSION I.E .PNG, .JPG, ETC  
-			Store store = new Store("Store Owner", "storeowner@example.com", "storeowner", "password123", "123 Thrift Ave", "storeowner.jpg");
+			Store store = new Store("Store Owner", "storeowner@example.com", "storeowner", "password123", "123 Thrift Ave", "storeowner.jpg", "acct_1PWM7wI1dOqpJBRU");
 			storeService.save(store);
 			System.out.println("Store added: " + store);
 
@@ -93,7 +93,9 @@ public class MyThriftApplication {
 			System.out.println("Sale added: " + sale);
 		};
 	}
-*/
+
+ */
+
 	/*
 	@Bean
 	@Autowired

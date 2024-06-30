@@ -45,4 +45,8 @@ public class SaleServiceImpl implements SaleService {
     public List<Sale> findByStore(Store store) {
         return saleRepository.findByStore(store);
     }
+    @Override
+    public Sale saveSale(Sale sale) {
+        return saleRepository.save(sale);
+    }
 }
