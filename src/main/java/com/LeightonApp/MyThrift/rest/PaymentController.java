@@ -61,14 +61,14 @@ public class PaymentController {
         SessionCreateParams params = SessionCreateParams.builder()
                 .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
                 .setMode(SessionCreateParams.Mode.PAYMENT)
-                .setSuccessUrl("http://localhost:3000/success")
+                .setSuccessUrl("http://localhost:3000/success?session_id={CHECKOUT_SESSION_ID}")
                 .setCancelUrl("http://localhost:3000/cancel")
                 .addLineItem(
                         SessionCreateParams.LineItem.builder()
                                 .setPriceData(
                                         SessionCreateParams.LineItem.PriceData.builder()
                                                 .setCurrency("cad")
-                                                .setUnitAmount(amount * 100L) // Amount in cents
+                                                .setUnitAmount(amount * 100L) // need amount in cents
                                                 .setProductData(
                                                         SessionCreateParams.LineItem.PriceData.ProductData.builder()
                                                                 .setName(itemName)
@@ -89,6 +89,9 @@ public class PaymentController {
                                 )
                                 .build()
                 )
+                .putMetadata("storeUsername", storeUsername)
+                .putMetadata("customerUsername", "customeruser") // FOR NOW HARDCODE
+                .putMetadata("itemName", itemName)
                 .build();
 
         try {
@@ -114,8 +117,8 @@ public class PaymentController {
         if ("checkout.session.completed".equals(event.getType())) {
             Session session = (Session) event.getData().getObject();
             // Handle the checkout.session.completed event
-            // Retrieve the customer and item details from your database and create a Sale
 
+            //create a Sale
             String storeUsername = session.getMetadata().get("storeUsername");
             String customerUsername = session.getMetadata().get("customerUsername");
             String itemName = session.getMetadata().get("itemName");
@@ -129,5 +132,22 @@ public class PaymentController {
         }
 
         return ResponseEntity.ok("Success");
+    }
+
+    @GetMapping("/get-item-by-session")
+    public ResponseEntity<ItemDTO> getItemBySession(@RequestParam String session_id) {
+        try {
+            Session session = Session.retrieve(session_id);
+            String storeUsername = session.getMetadata().get("storeUsername");
+            String itemName = session.getMetadata().get("itemName");
+
+            Store store = storeService.findUser(storeUsername).orElseThrow(() -> new RuntimeException("Store not found"));
+            Item item = itemService.findByName(itemName).orElseThrow(() -> new RuntimeException("Item not found"));
+
+            ItemDTO itemDTO = new ItemDTO(item, store); // Assuming you have an ItemDTO class
+            return ResponseEntity.ok(itemDTO);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 }

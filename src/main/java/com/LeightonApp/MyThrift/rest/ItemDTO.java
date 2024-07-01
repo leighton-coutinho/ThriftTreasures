@@ -1,5 +1,8 @@
 package com.LeightonApp.MyThrift.rest;
 
+import com.LeightonApp.MyThrift.entity.Item;
+import com.LeightonApp.MyThrift.entity.Store;
+
 // ItemDTO.java
 public class ItemDTO {
     private String name;
@@ -7,6 +10,16 @@ public class ItemDTO {
     private int id;
     private String desc;
     private String category;
+
+    public ItemDTO(Item item, Store store) {
+        //dto.setImageUrl(getImageUrl(username, item.getImagePath()));  // need to add an image path to the item entity
+        this.id = item.getId();
+        this.name = item.getName();
+        this.desc = item.getDescription();
+        this.category = item.getCategory().getName();
+        this.price = item.getPrice();
+        this.imageUrl = store.getUser().getUsername() + '/' + item.getImagePath(); // Assuming imagePath is the correct field
+    }
 
     public int getId() {
         return id;

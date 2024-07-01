@@ -27,4 +27,15 @@ function SuccessPage() {
 
     return (
         <div className="single-product">
-            <img src={`http://localhost:8081/${item.imageUrl}`} alt={item.name
+            <img src={`http://localhost:8081/${item.imageUrl}`} alt={item.name} />
+            <h1>Order Confirmed</h1>
+            <h2>{item.name}</h2>
+            <p>{item.description}</p>
+            <p>Category: {item.category}</p>
+            <p>Price: ${item.price}</p>
+            <p>An email will be sent to you shortly</p>
+        </div>
+    );
+}
+
+export default SuccessPage;

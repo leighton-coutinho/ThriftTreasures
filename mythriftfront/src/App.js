@@ -15,6 +15,7 @@ import Sales from './routes/Sales';
 import AddNewItemR from './routes/AddNewItemR';
 import StoreProducts from './routes/StoreProducts';
 import SingleProductPage from './routes/SingleProductPage';
+import Success from './routes/Success';
 
 
 const App = () => {
@@ -34,6 +35,7 @@ const App = () => {
             <Route path='/add' element={<AddNewItemR />} />
             <Route path="/stores/:username/products" element={<StoreProducts />} />
             <Route path="/stores/:username/products/:itemid" element={<SingleProductPage />} />
+            <Route path="/success" element={<Success />} />
           </Routes>
         </div>
       </Router>

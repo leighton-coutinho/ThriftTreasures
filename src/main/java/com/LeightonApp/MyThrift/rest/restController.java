@@ -137,14 +137,7 @@ public class restController {
         Store store = storeService.findUser(username).orElseThrow(() -> new RuntimeException("Store not found"));
         List<Item> items = itemService.findByStore(store);
         List<ItemDTO> itemDTOs = items.stream().map(item -> {
-            ItemDTO dto = new ItemDTO();
-            dto.setId(item.getId());
-            dto.setName(item.getName());
-            dto.setDesc(item.getDescription());
-            dto.setCategory(item.getCategory().toString());
-            dto.setPrice(item.getPrice());
-            //dto.setImageUrl(getImageUrl(username, item.getImagePath()));  // need to add an image path to the item entity
-            dto.setImageUrl(username + '/' + item.getImagePath());
+            ItemDTO dto = new ItemDTO(item, store);
             return dto;
         }).collect(Collectors.toList());
 
@@ -244,7 +237,7 @@ public class restController {
     @GetMapping("/items/{username}/{itemId}")
     public ResponseEntity<ItemDTO> getItemById(@PathVariable String username,@PathVariable int itemId) {
         Item item = itemService.findById(itemId).orElseThrow(() -> new RuntimeException("Item not found"));
-        ItemDTO dto = new ItemDTO();
+        ItemDTO dto = new ItemDTO(item, storeService.findUser(username).get());
         dto.setName(item.getName());
         dto.setId(item.getId());
         dto.setDesc(item.getDescription());
