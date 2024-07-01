@@ -1,12 +1,23 @@
 package com.LeightonApp.MyThrift.rest;
+import com.LeightonApp.MyThrift.dao.CategoryRepository;
+import com.LeightonApp.MyThrift.entity.Customer;
+import com.LeightonApp.MyThrift.entity.Item;
+import com.LeightonApp.MyThrift.entity.Sale;
 import com.LeightonApp.MyThrift.entity.Store;
+import com.LeightonApp.MyThrift.service.CustomerService;
+import com.LeightonApp.MyThrift.service.ItemService;
+import com.LeightonApp.MyThrift.service.SaleService;
 import com.LeightonApp.MyThrift.service.StoreService;
 import com.stripe.Stripe;
+import com.stripe.exception.SignatureVerificationException;
+import com.stripe.model.Event;
 import com.stripe.model.checkout.Session;
+import com.stripe.net.Webhook;
 import com.stripe.param.checkout.SessionCreateParams;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,11 +30,21 @@ public class PaymentController {
 
     @Value("${stripe.secret}")
     private String stripeApiKey;
+
+    @Value("${stripe.webhook.secret}")
+    private String webhookSecret;
+
     private StoreService storeService;
+    private ItemService itemService;
+    private CustomerService customerService;
+    private SaleService saleService;
 
     @Autowired
-    public PaymentController(StoreService theStore) {
+    public PaymentController(StoreService theStore, ItemService theItem, CustomerService theCustomer, SaleService theSale) {
         this.storeService = theStore;
+        this.itemService = theItem;
+        this.customerService = theCustomer;
+        this.saleService = theSale;
     }
 
     @PostConstruct
@@ -78,5 +99,35 @@ public class PaymentController {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @PostMapping("/webhook")
+    public ResponseEntity<String> handleStripeWebhook(@RequestBody String payload, @RequestHeader("Stripe-Signature") String sigHeader) {
+        Event event;
+
+        try {
+            event = Webhook.constructEvent(payload, sigHeader, webhookSecret);
+        } catch (SignatureVerificationException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Webhook error: " + e.getMessage());
+        }
+
+        if ("checkout.session.completed".equals(event.getType())) {
+            Session session = (Session) event.getData().getObject();
+            // Handle the checkout.session.completed event
+            // Retrieve the customer and item details from your database and create a Sale
+
+            String storeUsername = session.getMetadata().get("storeUsername");
+            String customerUsername = session.getMetadata().get("customerUsername");
+            String itemName = session.getMetadata().get("itemName");
+
+            Store store = storeService.findUser(storeUsername).orElseThrow(() -> new RuntimeException("Store not found"));
+            Customer customer = customerService.findByUsername(customerUsername).orElseThrow(() -> new RuntimeException("Customer not found"));
+            Item item = itemService.findByName(itemName).orElseThrow(() -> new RuntimeException("Item not found"));
+
+            Sale sale = new Sale(store, customer, item);
+            saleService.saveSale(sale);
+        }
+
+        return ResponseEntity.ok("Success");
     }
 }

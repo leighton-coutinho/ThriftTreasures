@@ -2,6 +2,7 @@ package com.LeightonApp.MyThrift.service;
 
 import com.LeightonApp.MyThrift.dao.CustomerRepository;
 import com.LeightonApp.MyThrift.entity.Customer;
+import com.LeightonApp.MyThrift.entity.Store;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,5 +36,11 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void deleteById(int userID) {
         customerRepository.deleteById(userID);
+    }
+
+    @Override
+    public Optional<Customer> findByUsername(String customerUsername)
+    {
+        return customerRepository.findByUsername(customerUsername);
     }
 }

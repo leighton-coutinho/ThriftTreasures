@@ -42,4 +42,10 @@ public class ItemServiceImpl implements ItemService {
     public List<Item> findByStore(Store store) {
         return itemRepository.findByStore(store);
     }
+
+    @Override
+    public Optional<Item> findByName(String itemname)
+    {
+        return itemRepository.findByName(itemname);
+    }
 }
