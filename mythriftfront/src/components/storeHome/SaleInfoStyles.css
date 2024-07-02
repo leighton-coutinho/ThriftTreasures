@@ -10,7 +10,7 @@
 
 .sale-row {
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr 1fr 1fr; /* Define the columns sizes */
+    grid-template-columns: 1.5fr 2fr 1fr 1fr 1fr 1fr 1fr; /* Define the columns sizes */
     align-items: center;
 }
 

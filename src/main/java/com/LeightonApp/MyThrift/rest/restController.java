@@ -34,15 +34,17 @@ public class restController {
 
     private CategoryService categoryService;
     private SaleService saleService;
+    private CustomerService customerService;
 
     @Autowired
-    public restController(UserService theUserService, StoreService theStoreService, ItemService theItemService, CategoryService theCategoryService, SaleService theSaleService)
+    public restController(UserService theUserService, StoreService theStoreService, ItemService theItemService, CategoryService theCategoryService, SaleService theSaleService, CustomerService theCustomer)
     {
         userService = theUserService;
         storeService = theStoreService;
         itemService = theItemService;
         categoryService = theCategoryService;
         saleService = theSaleService;
+        customerService = theCustomer;
     }
 
     // expose home endpoint "/"
@@ -75,6 +77,17 @@ public class restController {
 
         if (authenticatedStore.isPresent()) {
             return ResponseEntity.ok(authenticatedStore.get());
+        } else {
+            return ResponseEntity.status(401).body("Authentication failed");
+        }
+    }
+
+    @PostMapping("/authenticate2") // Customer Authentication
+    public ResponseEntity<?> authenticateUser2(@RequestBody UserLogin userLogin) {
+        Optional<Customer> authenticatedCustomer = customerService.authenticateUser(userLogin.getUsername(), userLogin.getPassword());
+
+        if (authenticatedCustomer .isPresent()) {
+            return ResponseEntity.ok(authenticatedCustomer.get());
         } else {
             return ResponseEntity.status(401).body("Authentication failed");
         }
@@ -211,6 +224,28 @@ public class restController {
             dto.setCategory(sale.getItem().getCategory().toString());
             dto.setStatus(sale.getStatus());
             dto.setBuyername(sale.getCustomer().getUser().getName());
+            dto.setPrice(sale.getItem().getPrice());
+            return dto;
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(saleDTOs);
+    }
+
+    @GetMapping("/{username}/orders")
+    public ResponseEntity<List<SaleDTO>> getOrders(@PathVariable String username)
+    {
+        Customer customer = customerService.findByUsername(username).orElseThrow(() -> new RuntimeException("Store not found"));
+        List<Sale> sales = saleService.findByCustomer(customer);
+
+        List<SaleDTO> saleDTOs = sales.stream().map(sale -> {
+            SaleDTO dto = new SaleDTO();
+            dto.setName(sale.getItem().getName());
+            dto.setDesc(sale.getItem().getDescription());
+            dto.setCategory(sale.getItem().getCategory().toString());
+            dto.setStatus(sale.getStatus());
+            dto.setBuyername(sale.getCustomer().getUser().getName());
+            dto.setStorename(sale.getStore().getUser().getName());
+            dto.setPrice(sale.getItem().getPrice());
             return dto;
         }).collect(Collectors.toList());
 
@@ -246,6 +281,13 @@ public class restController {
         dto.setImageUrl(username + '/' + item.getImagePath());
         return ResponseEntity.ok(dto);
     }
+
+    @PutMapping("/{username}/sales/{saleId}/complete")
+    public ResponseEntity<String> completeSale(@PathVariable String username, @PathVariable SaleId saleId) {
+        saleService.completeSale(username, saleId);
+        return ResponseEntity.ok("Sale completed successfully");
+    }
+
 
 
 }

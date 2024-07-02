@@ -1,9 +1,6 @@
 package com.LeightonApp.MyThrift.service;
 
-import com.LeightonApp.MyThrift.entity.Sale;
-import com.LeightonApp.MyThrift.entity.SaleId;
-import com.LeightonApp.MyThrift.entity.Store;
-import com.LeightonApp.MyThrift.entity.User;
+import com.LeightonApp.MyThrift.entity.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +12,10 @@ public interface SaleService {
     void deleteById(SaleId saleId);
 
     List<Sale> findByStore(Store store);
+    List<Sale> findByCustomer(Customer customer);
 
     public Sale saveSale(Sale sale);
+
+    public void completeSale(String username, SaleId saleId);
 
 }

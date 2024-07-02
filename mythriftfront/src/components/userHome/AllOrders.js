@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../common/AuthContext';
-import SaleInfo from './SaleInfo';
-import './AllSalesStyles.css';
+import OrderInfo from './OrderInfo';
+import '../storeHome/AllSalesStyles.css';
 
-const AllSales = () => {
+const AllOrders = () => {
     const [salesData, setSalesData] = useState([]);
     const authContext = useAuth();
 
     useEffect(() => {
         const fetchSales = async () => {
             try {
-                const response = await fetch(`http://localhost:8081/${authContext['username']}/sales`);
+                const response = await fetch(`http://localhost:8081/${authContext['username']}/orders`);
                 const data = await response.json();
                 setSalesData(Array.isArray(data) ? data : []);
             } catch (error) {
@@ -24,15 +24,15 @@ const AllSales = () => {
     return (
         <main>
             <div className="all-sales">
-                <h1>All Sales</h1>
+                <h1>All Orders</h1>
                 {salesData.map((sale, index) => (
-                    <SaleInfo
+                    <OrderInfo
                         key={index}
                         name={sale.name}
                         desc={sale.desc}
                         category={sale.category}
                         status={sale.status}
-                        buyername={sale.buyername}
+                        storename={sale.storename}
                         price={sale.price}
                     />
                 ))}
@@ -42,4 +42,4 @@ const AllSales = () => {
     );
 };
 
-export default AllSales;
+export default AllOrders;

@@ -2,10 +2,7 @@ package com.LeightonApp.MyThrift.service;
 
 import com.LeightonApp.MyThrift.dao.SaleRepository;
 import com.LeightonApp.MyThrift.dao.UserRepository;
-import com.LeightonApp.MyThrift.entity.Sale;
-import com.LeightonApp.MyThrift.entity.SaleId;
-import com.LeightonApp.MyThrift.entity.Store;
-import com.LeightonApp.MyThrift.entity.User;
+import com.LeightonApp.MyThrift.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +43,20 @@ public class SaleServiceImpl implements SaleService {
         return saleRepository.findByStore(store);
     }
     @Override
+    public List<Sale> findByCustomer(Customer customer) {
+        return saleRepository.findByCustomer(customer);
+    }
+    @Override
     public Sale saveSale(Sale sale) {
         return saleRepository.save(sale);
+    }
+
+    @Override
+    public void completeSale(String username, SaleId saleId) {
+        Sale sale = saleRepository.findById(saleId).orElseThrow(() -> new RuntimeException("Sale not found"));
+        if (!sale.getStatus().equals("Completed")) {
+            sale.setStatus("Completed");
+            saleRepository.save(sale);
+        }
     }
 }

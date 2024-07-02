@@ -13,6 +13,9 @@ function Hero (props) {
                 <a href={props.url} className={props.btnClass}>
                     {props.buttonText}
                 </a>
+                <a href={props.url2} className={props.btnClass}>
+                    {props.buttonText2}
+                </a>
             </div>
         </>
 

@@ -13,4 +13,8 @@ public interface CustomerService {
     void deleteById(int userID);
 
     Optional<Customer> findByUsername(String customerUsername);
+
+    Optional<Customer> authenticateUser(String username, String password);
+
+
 }

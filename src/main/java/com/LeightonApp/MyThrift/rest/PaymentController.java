@@ -52,7 +52,7 @@ public class PaymentController {
         Stripe.apiKey = this.stripeApiKey;
     }
 
-    @PostMapping("/create-checkout-session")
+    @PostMapping("/create-checkout-session") // SHOULD ADD PARAMETER FOR CUSTOMER USERNAME TO REMOVE HARD CODING
     public ResponseEntity<Map<String, Object>> createCheckoutSession(@RequestParam String storeUsername, @RequestParam String itemName, @RequestParam long amount) {
         // Assume storeService.findUser returns an Optional<Store>
         Store store = storeService.findUser(storeUsername).orElseThrow(() -> new RuntimeException("Store not found"));

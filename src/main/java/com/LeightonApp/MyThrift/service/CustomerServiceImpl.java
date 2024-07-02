@@ -43,4 +43,9 @@ public class CustomerServiceImpl implements CustomerService {
     {
         return customerRepository.findByUsername(customerUsername);
     }
+
+    @Override
+    public Optional<Customer> authenticateUser(String username, String password) {
+        return customerRepository.authenticateUser(username, password);
+    }
 }

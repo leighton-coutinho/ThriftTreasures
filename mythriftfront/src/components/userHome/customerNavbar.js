@@ -2,13 +2,13 @@ import React, { useState, useEffect, useContext } from 'react';
 import '../../App.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import "./storeNavbarStyles.css";
-import {storeMenuItems} from "./storeMenuItems";
+import "../storeHome/storeNavbarStyles.css";
+import {customerMenuItems} from "./customerMenuItems";
 import { useNavigate } from 'react-router-dom';
 import { AuthContext, useAuth } from '../common/AuthContext';
 
 
-function StoreNavbar() {
+function CustomerNavbar() {
     const navigate = useNavigate();
     const [iconClassName, setIconClassName] = useState('fas fa-bars');
     const [menuClassName, setMenuClassName] = useState('nav-menu');
@@ -30,7 +30,7 @@ function StoreNavbar() {
 
     return (
         <nav className="NavbarItems">
-            <Link to="/store" className="navbar-logo">
+            <Link to="/service" className="navbar-logo">
                 <h1>ThriftTreasures</h1>
             </Link>
 
@@ -38,7 +38,7 @@ function StoreNavbar() {
             <i className={iconClassName} onClick={handleIconClick}></i>
              </div>
             <ul className={menuClassName}>
-                {storeMenuItems.map((item, index) => {
+                {customerMenuItems.map((item, index) => {
                     return (
                         <Link className={item.cName} key={index} to={item.url}>
                         <i className={item.icon}></i> {item.title}
@@ -53,4 +53,4 @@ function StoreNavbar() {
     );
 }
 
-export default StoreNavbar;
+export default CustomerNavbar;

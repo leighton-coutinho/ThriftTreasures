@@ -7,6 +7,24 @@ public class SaleDTO {
     private String category;
     private String status;
     private String buyername;
+    private String storename;
+    private double price;
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getStorename() {
+        return storename;
+    }
+
+    public void setStorename(String storename) {
+        this.storename = storename;
+    }
 
     public String getName() {
         return name;

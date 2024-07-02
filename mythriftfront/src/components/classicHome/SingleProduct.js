@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { loadStripe } from '@stripe/stripe-js';
+import { useAuth } from '../common/AuthContext';
 import './SingleProductStyles.css';
 
 // Initialize Stripe with your public key
@@ -9,8 +10,16 @@ const stripePromise = loadStripe('pk_test_51PWLYAEzUy2D86I2aMW3bUXEYfaEWRoBWZ3Cd
 function SingleProduct() {
     const { username, itemid } = useParams();
     const [item, setItem] = useState(null);
+    const authContext = useAuth();
+    const navigate = useNavigate()
 
     const handleBuy = async () => {
+        if (authContext['isAuthenticated'] == false)
+            {
+                // navigate to login
+                navigate('/login2')
+                return;
+            }
         try {
             const stripe = await stripePromise;
             const response = await fetch(`http://localhost:8081/api/payments/create-checkout-session?storeUsername=${username}&itemName=${item.name}&amount=${item.price}`, {
@@ -48,6 +57,7 @@ function SingleProduct() {
     if (!item) {
         return <div>Loading...</div>;
     }
+
 
     return (
         <div className="single-product">
