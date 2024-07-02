@@ -42,7 +42,7 @@ public class MyThriftApplication {
 		};
 	}
 
-/*
+
 
 	@Bean
 	@Autowired
@@ -94,7 +94,7 @@ public class MyThriftApplication {
 		};
 	}
 
- */
+
 
 	/*
 	@Bean

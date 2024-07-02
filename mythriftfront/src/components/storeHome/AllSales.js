@@ -1,3 +1,4 @@
+// AllSales.js
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../common/AuthContext';
 import SaleInfo from './SaleInfo';
@@ -6,6 +7,7 @@ import './AllSalesStyles.css';
 const AllSales = () => {
     const [salesData, setSalesData] = useState([]);
     const authContext = useAuth();
+
 
     useEffect(() => {
         const fetchSales = async () => {
@@ -28,12 +30,16 @@ const AllSales = () => {
                 {salesData.map((sale, index) => (
                     <SaleInfo
                         key={index}
+                        saleId={sale.id}
                         name={sale.name}
                         desc={sale.desc}
                         category={sale.category}
                         status={sale.status}
                         buyername={sale.buyername}
                         price={sale.price}
+                        itemId={sale.itemId}
+                        customerId={sale.customerId}
+                        storeId={sale.storeId}
                     />
                 ))}
             </div>

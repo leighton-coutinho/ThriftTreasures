@@ -52,7 +52,7 @@ public class SaleServiceImpl implements SaleService {
     }
 
     @Override
-    public void completeSale(String username, SaleId saleId) {
+    public void completeSale(SaleId saleId) {
         Sale sale = saleRepository.findById(saleId).orElseThrow(() -> new RuntimeException("Sale not found"));
         if (!sale.getStatus().equals("Completed")) {
             sale.setStatus("Completed");

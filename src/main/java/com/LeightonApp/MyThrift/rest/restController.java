@@ -225,6 +225,9 @@ public class restController {
             dto.setStatus(sale.getStatus());
             dto.setBuyername(sale.getCustomer().getUser().getName());
             dto.setPrice(sale.getItem().getPrice());
+            dto.setItemId(sale.getItemID());
+            dto.setStoreId(sale.getStoreID());
+            dto.setCustomerId(sale.getCustomerID());
             return dto;
         }).collect(Collectors.toList());
 
@@ -282,9 +285,10 @@ public class restController {
         return ResponseEntity.ok(dto);
     }
 
-    @PutMapping("/{username}/sales/{saleId}/complete")
-    public ResponseEntity<String> completeSale(@PathVariable String username, @PathVariable SaleId saleId) {
-        saleService.completeSale(username, saleId);
+    @PutMapping("/sales/{storeId}/{customerId}/{itemId}/complete")
+    public ResponseEntity<String> completeSale(@PathVariable int storeId, @PathVariable int customerId, @PathVariable int itemId) {
+        SaleId saleId = new SaleId(storeId, customerId, itemId);
+        saleService.completeSale(saleId);
         return ResponseEntity.ok("Sale completed successfully");
     }
 

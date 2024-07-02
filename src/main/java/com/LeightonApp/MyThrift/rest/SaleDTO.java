@@ -10,6 +10,34 @@ public class SaleDTO {
     private String storename;
     private double price;
 
+    private int itemId;
+    private int storeId;
+    private int customerId;
+
+    public int getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
+    }
+
+    public int getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(int storeId) {
+        this.storeId = storeId;
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
+
     public double getPrice() {
         return price;
     }

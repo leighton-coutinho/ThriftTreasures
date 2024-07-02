@@ -16,6 +16,6 @@ public interface SaleService {
 
     public Sale saveSale(Sale sale);
 
-    public void completeSale(String username, SaleId saleId);
+    public void completeSale(SaleId saleId);
 
 }

@@ -8,8 +8,8 @@ function ContactForm (props) {
     let mymessage = "Send a message to us!"
     let desc = ""
     if (props.isSignUp == "true") {
-        mymessage = "Tell us your stores's situation for a quote!"
-        desc = "Once payment has been made, you will receive your login details"
+        mymessage = "We are currently in Beta development!"
+        desc = "Send us your information if you would like an account, either as a store or a user."
     }
 
     const [wasSent, setWasSent] = useState('');
