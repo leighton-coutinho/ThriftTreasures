@@ -1,5 +1,5 @@
 # ThriftTreasures
-
+https://github.com/leighton-coutinho/ThriftTreasures/assets/96268506/affa0090-16dc-4866-8b94-2874e8df93b5
 ## Overview
 ThriftTreasures is a web application designed to enhance the online presence of thrift stores, enabling them to showcase and sell their unique items online. Built using Spring Boot, React, and MySQL, the application integrates secure payment processing through Stripe, ensuring a seamless and secure shopping experience for users.
 
